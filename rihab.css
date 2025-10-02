@@ -1,0 +1,96 @@
+/* إخفاء مربعات الاختيار الافتراضية */
+#openMessage {
+    display: none;
+}
+
+/* ------------------ تصميم الزر والمحتوى ------------------ */
+.container {
+    text-align: center;
+    padding: 50px;
+    font-family: Arial, sans-serif;
+}
+
+.trigger-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff69b4; /* لون وردي */
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    user-select: none;
+    font-weight: bold;
+}
+
+.trigger-button:hover {
+    background-color: #ff4d94;
+}
+
+/* ------------------ صندوق الرسالة (مخفي مبدئياً) ------------------ */
+.message-box {
+    width: 300px;
+    height: 0; /* الرسالة مخفية بالارتفاع صفر */
+    margin: 20px auto 0;
+    background-color: #fff0f5;
+    border: 2px solid #ff69b4;
+    border-radius: 10px;
+    overflow: hidden; /* لإخفاء المحتوى قبل الفتح */
+    transition: height 0.6s ease-out, padding 0.6s ease-out;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.message-box p {
+    margin: 0;
+    padding: 20px;
+    opacity: 0; /* إخفاء النص مبدئياً */
+    transition: opacity 0.3s 0.6s; /* تأخير ظهور النص بعد فتح الصندوق */
+    color: #333;
+}
+
+/* ------------------ القلب المتحرك (مخفي مبدئياً) ------------------ */
+.heart {
+    font-size: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0); /* تصغير القلب وإخفاؤه */
+    opacity: 0;
+    transition: all 0.6s ease-out;
+    z-index: 10;
+}
+
+/* ------------------ عند الضغط (تأثير الفتح) ------------------ */
+
+/* 1. فتح صندوق الرسالة */
+#openMessage:checked ~ .trigger-button + .message-box {
+    height: 120px; /* ارتفاع الرسالة عند الفتح */
+    padding: 5px; /* إضافة حشو عند الفتح */
+}
+
+/* 2. إظهار وتحريك نص الرسالة */
+#openMessage:checked ~ .trigger-button + .message-box p {
+    opacity: 1;
+    /* هذا الهامش هو ما سيدفع النص للأسفل */
+    margin-top: 35px; 
+    /* إضافة حركة انتقال للهامش (Margin) لجعل النزول سلسًا */
+    transition: opacity 0.3s 0.6s, margin-top 0.6s ease-out; 
+    color: #333;
+}
+
+/* 3. إظهار وتحريك القلب */
+#openMessage:checked ~ .trigger-button + .message-box .heart {
+    opacity: 1;
+    transform: translate(-50%, -150%) scale(1.5); /* يكبر ويرتفع خارج الرسالة */
+    animation: pulse 1s infinite alternate; /* إضافة نبض بسيط للقلب */
+}
+
+/* ------------------ الحركة الإضافية للقلب ------------------ */
+@keyframes pulse {
+    from {
+        transform: translate(-50%, -150%) scale(1.5);
+    }
+    to {
+        transform: translate(-50%, -150%) scale(1.6);
+    }
+}
