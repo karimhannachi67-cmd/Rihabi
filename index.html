@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    <link rel="stylesheet" href="rihab.css">
+<head>
+    <meta charset="UTF-8">
+    <title>رسالة الحب</title>
+    <style>
+        /* ضع كل كود CSS السابق هنا، ثم أضف عليه التعديلات الجديدة للخلفية */
+        /* ... كود CSS السابق للزر والرسالة ... */
+        
+        /* ------------------ كود CSS الجديد للخلفية ------------------ */
+        body {
+            margin: 0;
+            overflow: hidden; /* لإخفاء أي قلوب أو كلمات تخرج عن الشاشة */
+            background-color: #f88fb2; /* لون خلفية وردي فاتح */
+        }
+
+        .falling-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* يسمح بالضغط على العناصر التي تحتها */
+            z-index: -1; /* لجعلها خلف الرسالة والزر */
+        }
+
+        .heart-fall, .name-fall {
+            position: absolute;
+            opacity: 0;
+            animation: fall linear forwards;
+            white-space: nowrap; /* لمنع الكلمات من الالتفاف */
+            font-weight: bold;
+        }
+
+        .heart-fall {
+            color: #ff69b4; /* لون القلب */
+            font-size: 20px;
+        }
+
+        .name-fall {
+            color: #f7f2f4; /* لون الكلمة/الاسم */
+            font-size: 18px;
+            font-family: ' cursive'; /* خط لطيف */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) translateX(0) rotateZ(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(0) rotateZ(360deg);
+                opacity: 0;
+            }
+        }
+        /* ... هنا ينتهي كود CSS الجديد للخلفية ... */
+    </style>
+</head>
+<body>
+    <div class="falling-elements"></div> <div class="container">
+        <input type="checkbox" id="openMessage">
+        <label for="openMessage" class="trigger-button">To Mi Luna</label>
+
+        <div class="message-box">
+            <div class="heart">❤️</div>
+            <p>I Love You So Much Rihabi</p>
+        </div>
+    </div>
+
+    <script>
+        const fallingContainer = document.querySelector('.falling-elements');
+        const names = ["Luna", "Rihabi", "Love", "Heart", "Joy", "🥰"]; // الأسماء أو الكلمات التي تريدها
+
+        function createFallingElement(isHeart = true) {
+            const element = document.createElement('span');
+            element.classList.add(isHeart ? 'heart-fall' : 'name-fall');
+            element.innerHTML = isHeart ? '❤️' : names[Math.floor(Math.random() * names.length)];
+            
+            // تحديد موضع البدء بشكل عشوائي
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.animationDuration = Math.random() * 5 + 5 + 's'; // سرعة السقوط (5-10 ثواني)
+            element.style.fontSize = Math.random() * 10 + (isHeart ? 20 : 16) + 'px'; // حجم عشوائي
+            element.style.animationDelay = Math.random() * 3 + 's'; // تأخير عشوائي للبدء
+
+            fallingContainer.appendChild(element);
+
+            // إزالة العنصر بعد انتهاء الأنميشن لتجنب تراكم العناصر في DOM
+            element.addEventListener('animationend', () => {
+                element.remove();
+            });
+        }
+
+        // إنشاء القلوب والأسماء بشكل مستمر
+        setInterval(() => {
+            createFallingElement(true); // لإنشاء قلب
+            if (Math.random() > 0.5) { // فرصة 50% لإنشاء اسم/كلمة
+                createFallingElement(false); // لإنشاء اسم
+            }
+        }, 300); // إنشاء عنصر جديد كل 300 مللي ثانية
+    </script>
+</body>
+</html>
